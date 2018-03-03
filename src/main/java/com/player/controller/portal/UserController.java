@@ -1,4 +1,4 @@
-package com.player.controller;
+package com.player.controller.portal;
 
 import com.player.common.Const;
 import com.player.common.ResponseCode;
