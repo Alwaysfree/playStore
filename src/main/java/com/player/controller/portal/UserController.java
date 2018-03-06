@@ -104,6 +104,7 @@ public class  UserController{
     @RequestMapping(value="forgetQuestion.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetQuestion(String username){
+
         return userService.selectQuestion(username);
     }
 
