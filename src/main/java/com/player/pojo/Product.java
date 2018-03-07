@@ -3,7 +3,7 @@ package com.player.pojo;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class product {
+public class Product {
     private Integer id;
     private Integer categoryId;
     private String name;
@@ -16,7 +16,7 @@ public class product {
     private Integer stock;
     private Integer status;
 
-    public product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages,
+    public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages,
                    BigDecimal price, Date createTime, Date updateTime, Integer stock, Integer status) {
         this.id = id;
         this.categoryId = categoryId;
@@ -31,7 +31,7 @@ public class product {
         this.status = status;
     }
 
-    public product() {
+    public Product() {
     }
 
     public Integer getId() {
