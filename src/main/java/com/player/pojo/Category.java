@@ -4,11 +4,11 @@ package com.player.pojo;
 import java.util.Date;
 
 public class Category{
-    private Integer id;           //品类标识
+    private Integer id;           //品类id
     private Integer parentId;    //父节点id
     private String name;          //品类名称
-    private Boolean status;       //是否存在
-    private Integer sortOrder;    //分类的数量
+    private Boolean status;       //类别状态 1为正常 2为废弃
+    private Integer sortOrder;    //排序编号
     private Date createTime;      //创建时间
     private Date updateTime;      //更新时间
 

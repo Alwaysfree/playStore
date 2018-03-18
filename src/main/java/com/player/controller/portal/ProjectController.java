@@ -2,7 +2,7 @@ package com.player.controller.portal;
 
 import com.github.pagehelper.PageInfo;
 import com.player.common.ServerResponse;
-import com.player.service.ProjectService;
+import com.player.service.ProductService;
 import com.player.vo.ProductDetailVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/project/")
 public class ProjectController{
     @Autowired
-    private ProjectService projectService;
+    private ProductService productService;
 
     /**  
      *      
@@ -25,7 +25,7 @@ public class ProjectController{
      */  
     @RequestMapping("/detail.do")
     public ServerResponse<ProductDetailVo> detail(Integer productId){
-        return projectService.getProductDetail(productId);
+        return productService.getProductDetail(productId);
     }
 
     
@@ -42,6 +42,6 @@ public class ProjectController{
                                          @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,
                                          @RequestParam(value = "pageSize",defaultValue = "10")int pageSize,
                                          @RequestParam(value = "orderBy",defaultValue = "")String orderBy){
-        return projectService.getProductByCategoryKeyword(keyword,categoryId,pageNum,pageSize,orderBy);
+        return productService.getProductByCategoryKeyword(keyword,categoryId,pageNum,pageSize,orderBy);
     }
 }

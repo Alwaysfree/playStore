@@ -15,9 +15,10 @@ public class Product {
     private Date updateTime;
     private Integer stock;
     private Integer status;
+    private String detail;
 
     public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages,
-                   BigDecimal price, Date createTime, Date updateTime, Integer stock, Integer status) {
+                   BigDecimal price, Date createTime, Date updateTime, Integer stock, Integer status, String detail) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
@@ -29,6 +30,7 @@ public class Product {
         this.updateTime = updateTime;
         this.stock = stock;
         this.status = status;
+        this.detail = detail;
     }
 
     public Product() {
@@ -120,5 +122,13 @@ public class Product {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 }

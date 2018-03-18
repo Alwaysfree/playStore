@@ -2,10 +2,13 @@ package com.player.common;
 
 import com.sun.scenario.effect.impl.sw.sse.SSERendererDelegate;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.xml.ws.Response;
 import java.io.Serializable;
 
+@JsonSerialize(include =  JsonSerialize.Inclusion.NON_NULL)
+//保证序列化json的时候,如果是null的对象,key也会消失
 public class ServerResponse<T> implements Serializable{
     private int status;
     private String msg;

@@ -71,9 +71,10 @@ public class  UserController{
      * @param [str, type]
      * @return com.player.common.ServerResponse<java.lang.String>
      */
-    @RequestMapping(value="checkVaild.do",method = RequestMethod.POST)
+    @RequestMapping(value="checkValid.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> checkVaild(String str,String type){
+
         return userService.checkVlid(str,type);
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserMapper userMapper;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
         if (user==null){
             ServerResponse.createByErrorMessage("密码错误");
         }
-        user.setPassword(StringUtils.EMPTY);
+        user.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
         return ServerResponse.createBySuccess("登陆成功",user);
     }
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
      * @return com.player.common.ServerResponse<java.lang.String>
      */
     public ServerResponse<String> register(User user) {
-    ServerResponse response = checkVlid(user.getUsername(), Const.currentUser);
+    ServerResponse response = checkVlid(user.getUsername(), Const.USERNAME);
     if(!response.isSussess()){
         return response;
     }
@@ -68,14 +68,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     /**
-     * 校验用户的用户名和邮箱是否已存在
+     * 校验用户的用户名或者邮箱是否已存在
      * @author alwaysfree
      * @date 2018/3/6 10:40
      * @param [str, type]
      * @return com.player.common.ServerResponse<java.lang.String>
      */
     public ServerResponse<String> checkVlid(String str, String type) {
-        if (StringUtils.isNotBlank(type)){
+       /* if (StringUtils.isNotBlank(type)){
         //开始校验
             int resultCode = userMapper.checkUsername(type);
             if (resultCode>0){
@@ -88,7 +88,25 @@ public class UserServiceImpl implements UserService{
         }else{
             return ServerResponse.createByErrorMessage("参数校验失败");
         }
-        return ServerResponse.createByMassage("参数校验成功");
+        return ServerResponse.createByMassage("参数校验成功");*/
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(type)){
+            //开始校验
+            if(Const.USERNAME.equals(type)){
+                int resultCount = userMapper.checkUsername(str);
+                if(resultCount > 0 ){
+                    return ServerResponse.createByErrorMessage("用户名已存在");
+                }
+            }
+            if(Const.EMAIL.equals(type)){
+                int resultCount = userMapper.checkEmail(str);
+                if(resultCount > 0 ){
+                    return ServerResponse.createByErrorMessage("email已存在");
+                }
+            }
+        }else{
+            return ServerResponse.createByErrorMessage("参数错误");
+        }
+        return ServerResponse.createByMassage("校验成功");
     }
 
     @Override
@@ -157,7 +175,7 @@ public class UserServiceImpl implements UserService{
         }
         if (StringUtils.equals(token,forgetToken)){
             String MD5Password = MD5Util.MD5EncodeUtf8(newPassword);
-            int resultCode = userMapper.udatePasswordByUsername(username,newPassword);
+            int resultCode = userMapper.updatePasswordByUsername(username,MD5Password);
             if (resultCode>0){
                 return  ServerResponse.createByMassage("密码重置成功");
             }
@@ -169,7 +187,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     /**
-     *  登录成功以后的
+     *  登录成功以后修改密码
      * @author alwaysfree
      * @date 2018/3/6 13:46
      * @param [user, newPassword, oldPassword]
@@ -177,7 +195,7 @@ public class UserServiceImpl implements UserService{
      */
     public ServerResponse<String> resetPassword(User user, String newPassword, String oldPassword) {
         //检验用户的旧密码
-        int resultCode = userMapper.checkPassword(oldPassword,user.getPassword());
+        int resultCode = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(oldPassword),user.getId());
         if (resultCode==0){
             return ServerResponse.createByErrorMessage("旧密码错误");
         }
@@ -209,7 +227,7 @@ public class UserServiceImpl implements UserService{
             newUser.setPhone(user.getPhone());
             newUser.setQuestion(user.getQuestion());
             newUser.setAnswer(user.getAnswer());
-        int updateCode = userMapper.updateByPrimaryKey(user);
+        int updateCode = userMapper.updateByPrimaryKeySelective(user);
         if (updateCode>0){
             return ServerResponse.createBySuccess("更新个人信息成功",newUser);
         }
@@ -229,7 +247,7 @@ public class UserServiceImpl implements UserService{
         if (user==null){
             return ServerResponse.createByErrorMessage("找不到当前用户");
         }
-        user.setPassword(StringUtils.EMPTY);
+        user.setPassword(org.apache.commons.lang3.StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
     }
 

@@ -31,7 +31,7 @@ public class CategoryManageController {
      */
     @ResponseBody
     @RequestMapping(value = "addCategory.do")
-    public ServerResponse addCategory(String name, @RequestParam(value = "parentId", defaultValue = "0") int parentId, HttpSession session) {
+    public ServerResponse addCategory(String name, @RequestParam(value = "parentId", defaultValue = "0") Integer parentId, HttpSession session) {
         User user = (User) session.getAttribute(Const.currentUser);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
@@ -45,7 +45,7 @@ public class CategoryManageController {
         }
     }
 
-    /**  
+    /**
      * 更新品类名
      * @author alwaysfree 
      * @date 2018/3/3 13:07
@@ -70,7 +70,7 @@ public class CategoryManageController {
 
 
     /**
-     * 查询当前节点的子节点的category,不递归保持平级
+     * 查询当前节点的平级子节点的category
      * @author alwaysfree
      * @date 2018/3/3 13:18
      * @param [name, categoryId, session]
@@ -78,7 +78,7 @@ public class CategoryManageController {
      */
     @ResponseBody
     @RequestMapping(value = "getCategory.do")
-    public ServerResponse getCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") int categoryId, HttpSession session) {
+    public ServerResponse getCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
         User user = (User) session.getAttribute(Const.currentUser);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
@@ -101,7 +101,7 @@ public class CategoryManageController {
      */  
     @ResponseBody
     @RequestMapping(value = "getDeepCategory.do")
-    public ServerResponse getDeepCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") int categoryId, HttpSession session) {
+    public ServerResponse getDeepCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
         User user = (User) session.getAttribute(Const.currentUser);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");

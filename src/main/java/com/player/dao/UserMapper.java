@@ -8,12 +8,13 @@ public interface UserMapper{
     int checkEmail(String email);
     int checkEmailByUserId(@Param("email")String email,@Param("userId") Integer UserId);
     int checkAnswer(@Param("username")String username,@Param("question")String question,@Param("answer")String answer);
-    int checkPassword(@Param("password")String password,@Param("userId")String userId);
+    int checkPassword(@Param("password")String password,@Param("userId")Integer userId);
     int deleteUserById(Integer id);
     int addUser(User user);
     User checkLogin(@Param("username")String username,@Param("password")String password);
     String selectQuestionByUsername(String username);
-    int udatePasswordByUsername(@Param("username")String username,@Param("passwordNew")String passwordNew);
     int updateByPrimaryKey(User user);
     User selectById(Integer id);
+    int updateByPrimaryKeySelective(User user);
+    int updatePasswordByUsername(@Param("username") String username, @Param("newPassword") String newPassword);
 }

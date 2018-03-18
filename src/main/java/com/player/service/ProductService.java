@@ -15,5 +15,5 @@ public interface ProductService{
     ServerResponse productSearch(String productName,Integer productId,int pageNum,int pageSize);
     ServerResponse SetSaleStatus(Integer productI,Integer status);
     ServerResponse getList(int pageNum,int pageSize);
-
+    ServerResponse<ProductDetailVo> getProductDetail(Integer productId);
 }
