@@ -1,7 +1,9 @@
 package com.player.pojo;
 
+import java.util.Date;
+
 public class Shopping{
-    private Integer id;               //标识
+    private Integer id;               //地址id
     private Integer userId;          //用户id
     private String receiverName;    //接收者的名字
     private String receiverPhone;   //接收者的电话
@@ -11,8 +13,8 @@ public class Shopping{
     private String receiverDistrict;//接收者的地区
     private String receiverAddress; //接受者的详细地址
     private String receiverZip;      //接受者的数据
-    private String createTime;       //创建时间
-    private String updateTime;       //更新时间
+    private Date createTime;       //创建时间
+    private Date updateTime;       //更新时间
 
 
     public Shopping() {
@@ -21,7 +23,7 @@ public class Shopping{
     public Shopping(Integer id, Integer userId, String receiverName, String receiverPhone,
                     String receiverMobile, String receiverProvince, String receiverCity,
                     String receiverDistrict, String receiverAddress, String receiverZip,
-                    String createTime, String updateTime) {
+                    Date createTime, Date updateTime) {
         this.id = id;
         this.userId = userId;
         this.receiverName = receiverName;
@@ -116,19 +118,19 @@ public class Shopping{
         this.receiverZip = receiverZip;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 }

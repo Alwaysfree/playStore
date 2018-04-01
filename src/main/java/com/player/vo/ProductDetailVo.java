@@ -10,13 +10,13 @@ public class ProductDetailVo{
     private String subtitle;//标题
     private String mainImage;//主图
     private String subImages;//附图
-    private String detail;//详细产地
+    private String detail;//产品详情
     private BigDecimal price;//价格
     private Integer stock;//库存
-    private Integer status;//是否上架
+    private Integer status;//状态
     private String createTime;//创建时间
     private String updateTime;//更新时间
-    private String imageHost;//
+    private String imageHost;//图片服务器地址
     private Integer parentCategoryId;//父类节点id
 
     public Integer getId() {

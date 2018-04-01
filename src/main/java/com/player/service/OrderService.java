@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.player.common.ServerResponse;
 import com.player.vo.OrderVo;
 
+import java.util.Map;
+
 public interface OrderService{
 
     ServerResponse<PageInfo> manageList(int pageNum, int pageSize);
@@ -23,4 +25,10 @@ public interface OrderService{
     ServerResponse cancel(Integer id, Long orderNo);
 
     ServerResponse getProduct(Integer id);
+
+    ServerResponse queryOrderPayStatus(Integer id, Long orderNo);
+
+    ServerResponse aliCallback(Map<String, String> params);
+
+    ServerResponse pay(Long orderNo, Integer id, String path);
 }

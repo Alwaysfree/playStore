@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
     private CategoryService categoryService;
 
     /**
-     * 管理员账号获取产品详细信息
+     * 获取产品详细信息
      * @param productId
      * @return
      */
@@ -139,11 +139,13 @@ public class ProductServiceImpl implements ProductService{
     public ServerResponse saveOrUpdateProduct(Product product) {
         if (product!=null){
             if (StringUtils.isNotBlank(product.getSubImages())){
+                //从图片中找到主图
                 String[] subImages = product.getSubImages().split(",");
                 if (subImages.length>0){
                     product.setMainImage(subImages[0]);
                 }
             }
+            //更新产品时会指定产品id,所以产品id不为空时是更新产品
             if (product.getId()!=null){
                 int rowCount = productMapper.update(product);
                 if (rowCount>0){
@@ -152,8 +154,8 @@ public class ProductServiceImpl implements ProductService{
                     return ServerResponse.createBySuccess("更新产品失败");
                 }
             }else{
-                int rowCouunt = productMapper.insert(product);
-                if (rowCouunt>0){
+                int rowCount = productMapper.insert(product);
+                if (rowCount>0){
                     return ServerResponse.createBySuccess("新增产品成功");
                 }else{
                     return ServerResponse.createBySuccess("新增产品失败");
@@ -236,13 +238,16 @@ public class ProductServiceImpl implements ProductService{
      */
     @Override
     public ServerResponse<PageInfo> getList(int pageNum, int pageSize) {
+        //开始分页
         PageHelper.startPage(pageNum,pageSize);
         List<Product> productList = productMapper.selectList();
         List<ProductListVo> productListVoList = Lists.newArrayList();
         for (Product product:productList){
+            //product-->productListVo
             ProductListVo productListVo = assembleProductListVo(product);
             productListVoList.add(productListVo);
         }
+        //结束分页
         PageInfo result = new PageInfo(productList);
         result.setList(productListVoList);
         return ServerResponse.createBySuccess(result);

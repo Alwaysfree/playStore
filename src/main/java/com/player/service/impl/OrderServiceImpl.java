@@ -24,6 +24,7 @@ import com.player.util.DateTimeUtil;
 import com.player.util.FTPUtil;
 import com.player.util.PropertiesUtil;
 import com.player.vo.OrderItemVo;
+import com.player.vo.OrderProductVo;
 import com.player.vo.OrderVo;
 import com.player.vo.ShoppingVo;
 import org.apache.commons.lang3.StringUtils;
@@ -172,7 +173,7 @@ public class OrderServiceImpl implements OrderService{
         orderVo.setShoppingId(order.getShoppingId());
 
 
-        Shopping shopping = shoppingMapper.selectByUserId(order.getShoppingId());
+        Shopping shopping = shoppingMapper.selectById(order.getShoppingId());
         if (shopping != null){
             orderVo.setReceiverName(shopping.getReceiverName());
             orderVo.setShoppingVo(assembleShoppingVo(shopping));
@@ -240,7 +241,8 @@ public class OrderServiceImpl implements OrderService{
     private void reduceProductStock(List<OrderItem> orderItemList) {
         for (OrderItem orderItem:orderItemList){
             Product product = productMapper.selectById(orderItem.getProductId());
-            product.setStock(product.getStock()-orderItem.getQuantity());
+            System.out.println(product.getName());
+            product.setStock(product.getStock() - orderItem.getQuantity());
             productMapper.updateSeletive(product);
         }
     }
@@ -315,6 +317,7 @@ public class OrderServiceImpl implements OrderService{
                 return ServerResponse.createByErrorMessage("库存不足");
             }
             orderItem.setUserId(id);
+            orderItem.setProductId(product.getId());
             orderItem.setProductName(product.getName());
             orderItem.setProductImage(product.getMainImage());
             orderItem.setQuantity(cartItem.getQuantity());
@@ -392,8 +395,27 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public ServerResponse getProduct(Integer id) {
+        OrderProductVo orderProductVo = new OrderProductVo();
+        //从购物车中获取数据
 
-        return null;
+        List<Cart> cartList = cartMapper.selectCheckedCartByUserId(id);
+        ServerResponse serverResponse =  this.getCartOrderItem(id,cartList);
+        if(!serverResponse.isSussess()){
+            return serverResponse;
+        }
+        List<OrderItem> orderItemList =( List<OrderItem> ) serverResponse.getDate();
+
+        List<OrderItemVo> orderItemVoList = Lists.newArrayList();
+
+        BigDecimal payment = new BigDecimal("0");
+        for(OrderItem orderItem : orderItemList){
+            payment = BigDecimalUtil.add(payment.doubleValue(),orderItem.getTotalPrice().doubleValue());
+            orderItemVoList.add(assembleOrderItemVo(orderItem));
+        }
+        orderProductVo.setProductTotalPrice(payment);
+        orderProductVo.setOrderItemVoList(orderItemVoList);
+        orderProductVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+        return ServerResponse.createBySuccess(orderProductVo);
     }
 
 

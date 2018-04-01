@@ -95,8 +95,8 @@ public class ShoppingServiceImpl implements ShoppingService{
     @Override
     public ServerResponse selectAll(Integer id, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
-        List<Shopping> lists = shoppingMapper.selectAll(id);
+        List<Shopping> lists = shoppingMapper.selectByUserId(id);
         PageInfo pageInfo = new PageInfo(lists);
-        return ServerResponse.createByMassage("查询成功");
+        return ServerResponse.createBySuccess(pageInfo);
     }
 }

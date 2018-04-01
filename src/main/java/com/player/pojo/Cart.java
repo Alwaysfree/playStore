@@ -3,13 +3,26 @@ package  com.player.pojo;
 import java.util.Date;
 
 public class Cart{
-    private Integer id;          //标识
+    private Integer id;          //购物车id
     private Integer productId; //产品id
     private Integer userId;    //用户id
     private Integer quantity;  //数量
-    private Integer checked;   //勾选数量
+    private Integer checked;   //勾选情况 1勾选 2未勾选
     private Date createTime;   //创建时间
     private Date updateTime;   //更新时间
+
+    public Cart() {
+    }
+
+    public Cart(Integer id, Integer userId,Integer productId, Integer quantity, Integer checked, Date createTime, Date updateTime) {
+        this.id = id;
+        this.productId = productId;
+        this.userId = userId;
+        this.quantity = quantity;
+        this.checked = checked;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;

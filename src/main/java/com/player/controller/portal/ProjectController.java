@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/project/")
+@RequestMapping("/product/")
 public class ProjectController{
     @Autowired
     private ProductService productService;
@@ -23,7 +24,8 @@ public class ProjectController{
      * @param [productId]  
      * @return com.player.common.ServerResponse<com.player.vo.ProductDetailVo>  
      */  
-    @RequestMapping("/detail.do")
+    @RequestMapping("detail.do")
+    @ResponseBody
     public ServerResponse<ProductDetailVo> detail(Integer productId){
         return productService.getProductDetail(productId);
     }
@@ -36,7 +38,8 @@ public class ProjectController{
      * @param [keyword, categoryId, pageNum, pageSize, orderBy]  
      * @return com.player.common.ServerResponse<com.github.pagehelper.PageInfo>  
      */  
-    @RequestMapping("/list.do")
+    @RequestMapping("list.do")
+    @ResponseBody
     public ServerResponse<PageInfo> list(@RequestParam(value = "keyword",required = false)String keyword,
                                          @RequestParam(value = "categoryId",required = false)Integer categoryId,
                                          @RequestParam(value = "pageNum",defaultValue = "1")int pageNum,

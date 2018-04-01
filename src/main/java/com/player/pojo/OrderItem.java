@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderItem{
-    private Integer id;                    //标识
+    private Integer id;                    //订单子表id
     private Integer userId;               //用户id
     private Long orderNo;                 //订单编号
     private Integer productId;            //产品Id

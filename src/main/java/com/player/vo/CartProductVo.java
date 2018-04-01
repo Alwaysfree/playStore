@@ -3,7 +3,7 @@ package com.player.vo;
 import java.math.BigDecimal;
 //产品与购物车的结合
 public class CartProductVo{
-    private Integer id;                 //标识
+    private Integer id;                 //cart id
     private Integer productId;         //产品id
     private Integer userId;            //用户id
     private String productName;       //产品名
@@ -15,7 +15,7 @@ public class CartProductVo{
     private BigDecimal productTotalPrice;  //产品总价
     private Integer productStock;        //产品库存
     private Integer checked;              //产品是否勾选
-    private String limitQuantity;        //
+    private String limitQuantity;        //限制数量
 
     public Integer getId() {
         return id;

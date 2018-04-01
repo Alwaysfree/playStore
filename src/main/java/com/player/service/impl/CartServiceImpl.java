@@ -1,5 +1,6 @@
 package com.player.service.impl;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.player.common.Const;
@@ -16,10 +17,8 @@ import com.player.vo.CartProductVo;
 import com.player.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
+import org.apache.commons.collections.CollectionUtils;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 
 @Service("cartService")
@@ -28,26 +27,41 @@ public class CartServiceImpl implements CartService{
     private CartMapper cartMapper;
     @Autowired
     private ProductMapper productMapper;
+
+    /**
+     * 获取购物车列表
+     * @param userId
+     * @return
+     */
     @Override
     public ServerResponse<CartVo> list(Integer userId) {
         CartVo cartVo = this.getCartVoLimit(userId);
         return ServerResponse.createBySuccess(cartVo);
     }
 
+    /**
+     *
+     * 限制数量
+     * @param userId
+     * @return
+     */
     private CartVo getCartVoLimit(Integer userId) {
         CartVo cartVo = new CartVo();
         List<Cart> cartList = cartMapper.selectCartByUserId(userId);
         List<CartProductVo> cartProductVoList = Lists.newArrayList();
-
+        System.out.println("------------------"+cartList.size());
         BigDecimal cartTotalPrice = new BigDecimal("0");
-        if(!CollectionUtils.isEmpty(cartList)){
+
+        if(CollectionUtils.isNotEmpty(cartList)){
             for(Cart cartItem : cartList){
+                System.out.println("------------------"+ cartItem.getId());
                 CartProductVo cartProductVo = new CartProductVo();
                 cartProductVo.setId(cartItem.getId());
                 cartProductVo.setUserId(userId);
                 cartProductVo.setProductId(cartItem.getProductId());
-
+                System.out.println("------------------"+cartItem.getProductId());
                 Product product = productMapper.selectById(cartItem.getProductId());
+                System.out.println("------------------"+product.getName());
                 if(product != null){
                     cartProductVo.setProductMainImage(product.getMainImage());
                     cartProductVo.setProductName(product.getName());
@@ -78,7 +92,7 @@ public class CartServiceImpl implements CartService{
 
                 if(cartItem.getChecked() == Const.Cart.CHECKED){
                     //如果已经勾选,增加到整个的购物车总价中
-                    cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(),cartProductVo.getProductTotalPrice().doubleValue());
+                   cartTotalPrice = BigDecimalUtil.add(cartTotalPrice.doubleValue(),cartProductVo.getProductTotalPrice().doubleValue());
                 }
                 cartProductVoList.add(cartProductVo);
             }
@@ -116,8 +130,8 @@ public class CartServiceImpl implements CartService{
             //这个产品已经在购物车里了，数量相加
             count = cart.getQuantity() + count;
             cart.setQuantity(count);
+            cartMapper.updateSelective(cart);
         }
-        cartMapper.update(cart);
         return this.list(userId);
     }
 
@@ -153,8 +167,9 @@ public class CartServiceImpl implements CartService{
     public ServerResponse<CartVo> delete(Integer id, String productIds) {
         List<String> productList = Splitter.on(",").splitToList(productIds);
         if (CollectionUtils.isEmpty(productList)){
-            return cartMapper.deleteByUserIdProductIds(id,productIds);
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
         }
+        cartMapper.deleteByUserIdProductIds(id,productList);
         return list(id);
     }
 

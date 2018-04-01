@@ -21,16 +21,7 @@
     id, category_id, name, subtitle, main_image, sub_images, detail, price, stock, status, 
     create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from happysc_product
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from happysc_product
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
+
   <insert id="insert" parameterType="com.player.pojo.Product" >
     insert into happysc_product (id, category_id, name, 
       subtitle, main_image, sub_images, 
@@ -43,86 +34,24 @@
       #{status,jdbcType=INTEGER}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.player.pojo.Product" >
-    insert into happysc_product
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="categoryId != null" >
-        category_id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="subtitle != null" >
-        subtitle,
-      </if>
-      <if test="mainImage != null" >
-        main_image,
-      </if>
-      <if test="subImages != null" >
-        sub_images,
-      </if>
-      <if test="detail != null" >
-        detail,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="stock != null" >
-        stock,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="categoryId != null" >
-        #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="subtitle != null" >
-        #{subtitle,jdbcType=VARCHAR},
-      </if>
-      <if test="mainImage != null" >
-        #{mainImage,jdbcType=VARCHAR},
-      </if>
-      <if test="subImages != null" >
-        #{subImages,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null" >
-        #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="stock != null" >
-        #{stock,jdbcType=INTEGER},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        now(),
-      </if>
-      <if test="updateTime != null" >
-        now(),
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.player.pojo.Product" >
+
+
+  <update id="update" parameterType="com.player.pojo.Product">
+    update happysc_product
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      main_image = #{mainImage,jdbcType=VARCHAR},
+      sub_images = #{subImages,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateSeletive" parameterType="com.player.pojo.Product">
     update happysc_product
     <set >
       <if test="categoryId != null" >
@@ -161,46 +90,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.player.pojo.Product" >
-    update happysc_product
-    set category_id = #{categoryId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      subtitle = #{subtitle,jdbcType=VARCHAR},
-      main_image = #{mainImage,jdbcType=VARCHAR},
-      sub_images = #{subImages,jdbcType=VARCHAR},
-      detail = #{detail,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      stock = #{stock,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now()
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="update"></update>
-  <update id="updateSeletive"></update>
 
 
   <select id="selectList" resultMap="BaseResultMap" >
     SELECT
-    <include refid="Base_Column_List"/>
+    <include refid="Base_Column_List"></include>
     from happysc_product
     ORDER BY id asc
   </select>
 
-
-  <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List"/>
-    from happysc_product
-    <where>
-      <if test="productName != null">
-        and name like #{productName}
-      </if>
-      <if test="productId != null">
-        and id = #{productId}
-      </if>
-    </where>
-  </select>
   
   <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
     SELECT
@@ -217,7 +115,25 @@
       </foreach>
     </if>
   </select>
-  <select id="selectById" resultType="com.player.pojo.Product"></select>
-  <select id="selectByNameAndId" resultType="com.player.pojo.Product"></select>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from happysc_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByNameAndId" resultType="com.player.pojo.Product" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from happysc_product
+    <where>
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="productId != null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
 
 </mapper>

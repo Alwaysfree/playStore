@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@ResponseBody
+@RequestMapping("/manage/category/")
 public class CategoryManageController {
 
     @Autowired
@@ -78,7 +78,7 @@ public class CategoryManageController {
      */
     @ResponseBody
     @RequestMapping(value = "getCategory.do")
-    public ServerResponse getCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
+    public ServerResponse getCategory( @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
         User user = (User) session.getAttribute(Const.currentUser);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
@@ -101,7 +101,7 @@ public class CategoryManageController {
      */  
     @ResponseBody
     @RequestMapping(value = "getDeepCategory.do")
-    public ServerResponse getDeepCategory(String name, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
+    public ServerResponse getDeepCategory( @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId, HttpSession session) {
         User user = (User) session.getAttribute(Const.currentUser);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");

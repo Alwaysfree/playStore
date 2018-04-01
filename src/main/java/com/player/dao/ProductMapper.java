@@ -1,6 +1,7 @@
 package com.player.dao;
 
 import com.player.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,11 +13,11 @@ public interface ProductMapper{
 
     int updateSeletive(Product product);
 
-    Product selectById(Integer productId);
+    Product selectById(Integer id);
 
-    List<Product> selectByNameAndId(String productName, Integer productId);
+    List<Product> selectByNameAndId(@Param("productName") String productName, @Param("productId") Integer productId);
 
     List<Product> selectList();
 
-    List<Product> selectByNameAndCategoryIds(Object p0, Object o);
+    List<Product> selectByNameAndCategoryIds(@Param("productName")String productName,@Param("categoryIdList")List<Integer> categoryIdList);
 }

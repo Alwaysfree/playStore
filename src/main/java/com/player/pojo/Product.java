@@ -4,21 +4,21 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Product {
-    private Integer id;
-    private Integer categoryId;
-    private String name;
-    private String subtitle;
-    private String mainImage;
-    private String subImages;
-    private BigDecimal price;
-    private Date createTime;
-    private Date updateTime;
-    private Integer stock;
-    private Integer status;
-    private String detail;
+    private Integer id;             //产品id
+    private Integer categoryId;    //品类id
+    private String name;            //产品名称
+    private String subtitle;       //产品副标题
+    private String mainImage;      //产品主图
+    private String subImages;      //产品地址
+    private BigDecimal price;       //产品价格
+    private Date createTime;       //创建时间
+    private Date updateTime;       //更新时间
+    private Integer stock;          //产品库存
+    private Integer status;         //产品状态 1在售 2下架 3删除
+    private String detail;          //产品详情
 
-    public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages,
-                   BigDecimal price, Date createTime, Date updateTime, Integer stock, Integer status, String detail) {
+    public Product(Integer id, Integer categoryId, String name, String subtitle, String mainImage, String subImages, String detail,
+                   BigDecimal price,Integer stock, Integer status, Date createTime, Date updateTime) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;

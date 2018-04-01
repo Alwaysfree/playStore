@@ -9,13 +9,13 @@ public class Order{
     private Long orderNo;      //产品编号
     private Integer userId;    //用户id
     private Integer shoppingId;//地址id
-    private BigDecimal payment; //付款数
+    private BigDecimal payment; //付款金额
     private Integer paymentType;//付款方式
-    private Integer postage;     //
-    private Integer status;      //状态
+    private Integer postage;     //运费
+    private Integer status;      //状态 0取消 10未付款 20已付款 40已发货 50交易成功 60交易关闭
     private Date paymentTime;   //付款时间
-    private Date sendTime;      //发送时间
-    private Date endTime;       //停止时间
+    private Date sendTime;      //发货时间
+    private Date endTime;       //交易完成时间
     private Date closeTime;    //关闭时间
     private Date createTime;   //创建时间
     private Date updateTime;   //更新时间

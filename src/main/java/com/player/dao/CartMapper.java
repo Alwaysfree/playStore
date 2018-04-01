@@ -4,19 +4,20 @@ package com.player.dao;
 import com.player.common.ServerResponse;
 import com.player.pojo.Cart;
 import com.player.vo.CartVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CartMapper {
-    Cart selectCartByUserIdProductId(Integer userId, Integer productId);
+    Cart selectCartByUserIdProductId(@Param("userId") Integer userId, @Param("productId") Integer productId);
 
-    void insert(Cart cartItem);
+    int insert(Cart cart);
 
-    void update(Cart cart);
+    int update(Cart cart);
 
-    ServerResponse<CartVo> deleteByUserIdProductIds(Integer id, String productIds);
+    int deleteByUserIdProductIds(@Param("userId") Integer id, @Param("productIdList") List<String> productList);
 
-    void checkedOrUncheckedProduct(Integer id, Integer productId, Integer checked);
+    int checkedOrUncheckedProduct(@Param("userId") Integer id, @Param("productId") Integer productId, @Param("checked") Integer checked);
 
     List<Cart> selectCheckedCartByUserId(Integer userId);
 
@@ -24,9 +25,9 @@ public interface CartMapper {
 
     List<Cart> selectCartByUserId(Integer userId);
 
-    void updateSelective(Cart cartForQuantity);
+    int updateSelective(Cart cart);
 
     int selectCartProductCheckedStatusByUserId(Integer userId);
 
-    void deleteById(Integer id);
+    int deleteById(Integer id);
 }

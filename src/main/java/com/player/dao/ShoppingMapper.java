@@ -1,20 +1,21 @@
 package com.player.dao;
 
 import com.player.pojo.Shopping;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface ShoppingMapper{
 
-    public int insert(Shopping shopping);
+    int insert(Shopping shopping);
 
-    int deleteByUserIdAndShoppingId(Integer userId, Integer shoppingId);
+    int deleteByUserIdAndShoppingId(@Param("userId") Integer userId, @Param("shoppingId") Integer shoppingId);
 
     int updateByShopping(Shopping shopping);
 
-    Shopping selectByUserIdAndShoppingId(Integer id, Integer shoppingId);
+    Shopping selectByUserIdAndShoppingId(@Param("userId") Integer id, @Param("shoppingId") Integer shoppingId);
 
-    List<Shopping> selectAll(Integer id);
+    Shopping selectById(Integer id);
 
-    Shopping selectByUserId(Integer shoppingId);
+    List<Shopping> selectByUserId(Integer userId);
 }
